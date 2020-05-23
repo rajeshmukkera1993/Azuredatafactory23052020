@@ -1,0 +1,32 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Output",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Flatten1"
+				}
+			],
+			"script": "source(output(\n\t\tContact as (emailAddress as string, phoneNumber as string),\n\t\tName as (firstName as string, lastName as string),\n\t\temployeeCode as string,\n\t\tjobTitleName as string[],\n\t\tpreferredFullName as string,\n\t\tregion as string,\n\t\tuserId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tsingleDocument: true) ~> source1\nsource1 foldDown(unroll(jobTitleName),\n\tmapColumn(\n\t\tContact,\n\t\tName,\n\t\temployeeCode,\n\t\tjobTitleName,\n\t\tpreferredFullName,\n\t\tregion,\n\t\tuserId\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Flatten1\nFlatten1 sink(input(\n\t\tEmpid as string,\n\t\tEmpNmae as string,\n\t\tMarks as string,\n\t\tGender as string,\n\t\tDepid as string,\n\t\tDepName as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['Flatten'],\n\tmapColumn(\n\t\temployeeCode,\n\t\tjobTitleName,\n\t\tpreferredFullName,\n\t\tregion,\n\t\tuserId\n\t),\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
