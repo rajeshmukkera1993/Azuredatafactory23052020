@@ -1,0 +1,12 @@
+Create git hub account
+Copy Git hub repository URL from Git hub 
+Git remote add origin https://github.com/mukkerareddy/MyMasterRepository.git
+Git push origin master    or  git push origin master - - force   ->  it is useful to push data from local repository to master repository
+Git pull origin master  ->  it is useful to pull data from master repository to local repository
+Git branch rajesh     ->  to create branch in local repository
+Git branch                -> to check ho many branches in our local repository
+Git branch -d Chandra    ->   to delete crated branch
+Git checkout ramana   ->  to change master to branch in local repository
+Git push origin ramana     -> it will move ramana files to master repository
+Merge ramana files to master in master repository
+Git merge master  -> it is useful for merge files from master to Vijaya in local repository
